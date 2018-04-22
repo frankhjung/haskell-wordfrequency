@@ -8,8 +8,9 @@
 
 TARGET = wordfrequency
 SRCS = $(wildcard *.hs app/*.hs src/*.hs test/*.hs)
+.PHONY:	all style lint check run test doc install clean cleanall
 
-all:	style lint build test
+all:	style lint build test doc
 
 style:
 	@stylish-haskell -c .stylish-haskell.yaml -i ${SRCS}
@@ -25,9 +26,11 @@ build:	${SRCS} check
 run:
 	@cabal run
 
-.PHONY: test
 test:	build
 	@stack test
+
+doc:
+	@stack haddock
 
 install:
 	@stack install --local-bin-path $(HOME)/bin ${TARGET}
