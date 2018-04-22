@@ -1,9 +1,12 @@
 module Main(main) where
 
+import           System.IO     (getContents)
 import           WordFrequency (commonWords)
 
 --
--- MAIN count top ten word frequency
+-- MAIN word frequency in descending order
 --
 main :: IO ()
-main = putStrLn $ commonWords 10 "HELLO World hello Hello"
+main = do
+    text <- getContents
+    putStrLn $ commonWords text

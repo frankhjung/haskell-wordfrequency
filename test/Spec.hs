@@ -42,11 +42,11 @@ main = hspec $ do
 
   describe "showRuns" $
     context "when tuple (1,hello)" $
-      it "returns string 'hello\t1\\n" $
-        showRun (1,"hello") `shouldBe` "hello\t1\n"
+      it "returns string '1\\thello\\n" $
+        showRun (1,"hello") `shouldBe` "1\thello\n"
 
   describe "commonWords" $
     context "when given list of words" $
       it "returns words by descending frequeency" $
-        commonWords 10 "HELLO World hello Hello" `shouldBe` "hello\t3\nworld\t1\n"
+        commonWords "HELLO World hello Hello" `shouldBe` "3\thello\n1\tworld\n"
 
