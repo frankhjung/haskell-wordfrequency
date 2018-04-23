@@ -24,13 +24,21 @@ main = hspec $ do
       it "returns sorted list of lowercase words" $
         sort (words (map toLower "World HELLO")) `shouldBe` ["hello", "world"]
 
-  describe "countRuns " $ do
+  describe "countRuns" $ do
     context "when 1 x hello" $
       it "returns tuple (1,hello)" $
         countRuns ["hello", "world", "world"] `shouldBe` [(1, "hello"), (2, "world")]
     context "when 2 x hello" $
       it "returns tuple (2,hello)" $
         countRuns ["hello", "hello", "world"] `shouldBe` [(2, "hello"), (1, "world")]
+
+  describe "countRuns'" $ do
+    context "when 1 x hello" $
+      it "returns tuple (1,hello)" $
+        countRuns' ["hello", "world", "world"] `shouldBe` [(1, "hello"), (2, "world")]
+    context "when 2 x hello" $
+      it "returns tuple (2,hello)" $
+        countRuns' ["hello", "hello", "world"] `shouldBe` [(2, "hello"), (1, "world")]
 
   describe "sortRuns" $ do
     context "when hello appears twice" $
@@ -39,6 +47,14 @@ main = hspec $ do
     context "when hello appears once" $
       it "returns hello last" $
         sortRuns [(1,"hello"), (2,"world")] `shouldBe` [(2, "world"), (1, "hello")]
+
+  describe "sortRuns'" $ do
+    context "when hello appears twice" $
+      it "returns hello first" $
+        sortRuns' [(2,"hello"), (1,"world")] `shouldBe` [(2, "hello"), (1, "world")]
+    context "when hello appears once" $
+      it "returns hello last" $
+        sortRuns' [(1,"hello"), (2,"world")] `shouldBe` [(2, "world"), (1, "hello")]
 
   describe "showRuns" $
     context "when tuple (1,hello)" $

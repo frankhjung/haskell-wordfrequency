@@ -5,12 +5,15 @@
 # run
 #	@./${TARGET}
 #	@stack exec -- ${TARGET}
+# bench
+# 	@stack bench --benchmark-arguments '-o benchmark.html --csv benchmark.csv'
 
 TARGET = wordfrequency
-SRCS = $(wildcard *.hs app/*.hs src/*.hs test/*.hs)
-.PHONY:	all style lint check run test doc install clean cleanall
+SRCS = $(wildcard *.hs */*.hs)
 
-all:	style lint build test doc
+.PHONY:	all style lint check run test bench doc install clean cleanall
+
+all:	style lint build test bench doc
 
 style:
 	@stylish-haskell -c .stylish-haskell.yaml -i ${SRCS}
@@ -28,6 +31,9 @@ run:
 
 test:	build
 	@stack test
+
+bench:
+	@stack bench
 
 doc:
 	@stack haddock

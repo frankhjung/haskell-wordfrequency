@@ -1,3 +1,6 @@
+{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
+
 {-|
 
   Module      : wordfrequency
@@ -13,7 +16,9 @@
 -}
 
 module WordFrequency ( countRuns
+                     , countRuns'
                      , sortRuns
+                     , sortRuns'
                      , showRun
                      , commonWords
                      ) where
@@ -26,17 +31,28 @@ import           Data.Ord  (Down (..), comparing)
 commonWords :: String -> String
 commonWords = concatMap showRun . sortRuns . countRuns . sort . words . map toLower
 
--- | Count word frequency.
+-- | Count word frequency - Richard's version.
 countRuns :: [String] -> [(Int, String)]
 countRuns [] = []
-countRuns (x:xs) = (a,x) : countRuns (filter (/=x) xs)
-  where a = length $ filter (==x) (x:xs)
+countRuns (w:ws) = (1+length us, w):countRuns vs
+  where (us,vs) = span(==w) ws
 
--- | Sort word frequency in descending order.
+-- | Count word frequency - my version.
+countRuns' :: [String] -> [(Int, String)]
+countRuns' [] = []
+countRuns' (w:ws) = (1+length a,w) : countRuns' (filter (/=w) ws)
+  where a = filter (==w) ws
+
+-- | Sort word frequency in descending order - Richard's version
 sortRuns :: [(Int, String)] -> [(Int, String)]
-sortRuns = sortBy (comparing (Down . fst))
+sortRuns = sortBy (flip compare)
+-- sortRuns = reverse . sort
+
+-- | Sort word frequency in descending order - my version
+sortRuns' :: [(Int, String)] -> [(Int, String)]
+sortRuns' = sortBy $ comparing (Down . fst)
 
 -- | Formatted print word frequency.
 showRun :: (Int, String) -> String
-showRun (i,s) = show i ++ "\t" ++ s ++ "\n"
+showRun (i,s) = concat [show i, "\t", s, "\n"]
 
