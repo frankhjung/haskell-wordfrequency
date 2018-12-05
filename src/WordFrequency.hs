@@ -24,8 +24,8 @@ module WordFrequency ( countRuns
                      ) where
 
 import           Data.Char (toLower)
-import           Data.List (sort, sortBy)
-import           Data.Ord  (Down (..), comparing)
+import           Data.List (sort, sortBy, sortOn)
+import           Data.Ord  (Down (..))
 
 -- | Report word frequency in descending order.
 commonWords :: String -> String
@@ -50,7 +50,7 @@ sortRuns = sortBy (flip compare)
 
 -- | Sort word frequency in descending order - my version
 sortRuns' :: [(Int, String)] -> [(Int, String)]
-sortRuns' = sortBy $ comparing (Down . fst)
+sortRuns' = sortOn (Down . fst)
 
 -- | Formatted print word frequency.
 showRun :: (Int, String) -> String
