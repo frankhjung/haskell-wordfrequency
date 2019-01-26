@@ -1,55 +1,51 @@
 #!/usr/bin/env make
 
-# build
-#	@ghc -Wall -O2 --make $(SRCS)
-# run
-#	@./$(TARGET)
-#	@stack exec -- $(TARGET)
-# bench
-# 	@stack bench --benchmark-arguments '-o benchmark.html --csv benchmark.csv'
+.PHONY: build check tags style lint test exec bench doc install setup ghci clean cleanall
 
-TARGET = wordfrequency
-SRCS = $(wildcard *.hs */*.hs)
 
-.PHONY:	all style lint check run test bench doc install clean cleanall
+TARGET	:= wordfrequency
+SRCS	:= $(wildcard *.hs */*.hs)
 
-all:	style lint build test bench doc tags
+all:	check build test doc exec
+
+check:	tags style lint
+
+tags:
+	@hasktags --ctags --extendedctag $(SRCS)
 
 style:
-	@stylish-haskell -c .stylish-haskell.yaml -i $(SRCS)
+	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
 
 lint:
-	@hlint --color $(SRCS)
+	@hlint $(SRCS)
 
-check:	lint style
+test:
+	@stack test --coverage
 
-build:	$(SRCS) check
-	@stack build
-
-run:
-	@cabal run
-
-test:	build
-	@stack test
+exec:
+	@stack exec -- $(TARGET) < README.md +RTS -s
 
 bench:
-	@stack bench
-
-tags:	$(SRCS)
-	@hasktags --ctags $(SRCS)
+	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
 
 doc:
 	@stack haddock
 
 install:
-	@stack install --local-bin-path $(HOME)/bin $(TARGET)
+	@stack install --local-bin-path $(HOME)/bin
 
-clean:
-	@stack clean
-	@$(RM) -rf dist
-
-cleanall: clean
-	@$(RM) -rf .stack-work/
+setup:
+	-stack setup
+	-stack build --dependencies-only --test --no-run-tests
+	-stack query
+	-stack ls dependencies
 
 ghci:
 	@stack ghci --ghci-options -Wno-type-defaults
+
+clean:
+	@stack clean
+	@$(RM) -rf $(TARGET).tix
+
+cleanall: clean
+	@$(RM) -rf .stack-work/
