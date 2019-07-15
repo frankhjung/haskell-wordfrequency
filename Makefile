@@ -23,7 +23,7 @@ test:
 	@stack test --coverage
 
 exec:
-	@stack exec -- $(TARGET) < README.md +RTS -s
+	@stack exec -- $(TARGET) < LICENSE +RTS -s
 
 bench:
 	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'

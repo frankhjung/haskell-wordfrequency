@@ -63,6 +63,6 @@ main = hspec $ do
 
   describe "commonWords" $
     context "when given list of words" $
-      it "returns words by descending frequeency" $
+      it "returns words in descending frequency" $
         commonWords "HELLO World hello Hello" `shouldBe` "3\thello\n1\tworld\n"
 

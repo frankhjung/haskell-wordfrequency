@@ -4,10 +4,10 @@ resolver: lts-12.26
 flags: {}
 allow-newer: true
 packages:
-  - .
+  - '.'
 extra-deps:
   - criterion-1.4.1.0
-  - hspec-2.5.6
+  - hspec-2.5.5
   - text-1.2.3.1
 arch: x86_64
 system-ghc: true

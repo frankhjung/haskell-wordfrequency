@@ -45,8 +45,7 @@ countRuns' (w:ws) = (1+length a,w) : countRuns' (filter (/=w) ws)
 
 -- | Sort word frequency in descending order - Richard's version
 sortRuns :: [(Int, String)] -> [(Int, String)]
-sortRuns = sortBy (flip compare)
--- sortRuns = reverse . sort
+sortRuns = sortBy (flip compare) -- c.f. reverse . sort
 
 -- | Sort word frequency in descending order - my version
 sortRuns' :: [(Int, String)] -> [(Int, String)]
