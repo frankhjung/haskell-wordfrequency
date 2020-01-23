@@ -19,5 +19,6 @@ dist-*
 *.o
 *.prof
 .stack-work/
+stack.yaml.lock
 *.swp
 tags

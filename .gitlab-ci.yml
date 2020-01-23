@@ -1,3 +1,5 @@
+---
+
 stages:
   - build
   - deploy
@@ -16,10 +18,8 @@ build:
   script:
     - make setup clean all
     - mkdir -p public
-    - cp -p  doc/index.html public/
-    - cp -p .stack-work/benchmark.html public/
-    - cp -pr $(find .stack-work/install -type d -name hpc) public/
-    - cp -pr $(find .stack-work/dist -type d -name html) public/
+    - cp -pr .stack-work/install/x86_64-linux/*/*/hpc/* public/
+    - cp -pr .stack-work/dist/x86_64-linux/Cabal-*/doc/html/wordfrequency/* public/
   artifacts:
     paths:
       - public
@@ -41,5 +41,4 @@ pages:
     - build
   artifacts:
     paths:
-    - public
-
+      - public

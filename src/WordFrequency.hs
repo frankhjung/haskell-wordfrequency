@@ -6,7 +6,7 @@
   Module      : wordfrequency
   Description : Count word frequency.
   Copyright   : © Frank Jung, 2018
-  License     : GPL-3
+  License     : BSD3
   Maintainer  : frankhjung@linux.com
   Stability   : experimental
   Portability : Linux
@@ -35,12 +35,12 @@ commonWords = concatMap showRun . sortRuns . countRuns . sort . words . map toLo
 countRuns :: [String] -> [(Int, String)]
 countRuns [] = []
 countRuns (w:ws) = (1+length us, w):countRuns vs
-  where (us,vs) = span(==w) ws
+  where (us, vs) = span (==w) ws
 
 -- | Count word frequency - my version.
 countRuns' :: [String] -> [(Int, String)]
 countRuns' [] = []
-countRuns' (w:ws) = (1+length a,w) : countRuns' (filter (/=w) ws)
+countRuns' (w:ws) = (1+length a, w) : countRuns' (filter (/=w) ws)
   where a = filter (==w) ws
 
 -- | Sort word frequency in descending order - Richard's version
@@ -53,5 +53,5 @@ sortRuns' = sortOn (Down . fst)
 
 -- | Formatted print word frequency.
 showRun :: (Int, String) -> String
-showRun (i,s) = concat [show i, "\t", s, "\n"]
+showRun (i, s) = concat [show i, "\t", s, "\n"]
 
