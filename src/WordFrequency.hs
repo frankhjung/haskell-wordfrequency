@@ -6,7 +6,7 @@
   Module      : wordfrequency
   Description : Count word frequency.
   Copyright   : © Frank Jung, 2018
-  License     : GPL-3
+  License     : BSD3
   Maintainer  : frankhjung@linux.com
   Stability   : experimental
   Portability : Linux

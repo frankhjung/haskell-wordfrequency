@@ -1,5 +1,5 @@
 name:                 wordfrequency
-version:              0.2.0
+version:              0.3.0
 synopsis:             Implementation of word frequency as described by Richard Bird.
 description:          Count word frequency in given text
 homepage:             https://github.com/frankhjung/wordfrequency#readme
@@ -7,7 +7,7 @@ license:              BSD3
 license-file:         LICENSE
 author:               Frank H Jung
 maintainer:           frankhjung@linux.com
-copyright:            Copyright © 2017-2018 Frank H Jung
+copyright:            Copyright © 2017-2020 Frank H Jung
 category:             education
 build-type:           Simple
 cabal-version:        >=1.10
@@ -23,14 +23,14 @@ library
   exposed-modules:    WordFrequency
   ghc-options:        -O2
                       -Wall
-  build-depends:      base >= 4.11.1 && < 4.12
-                    , text >= 1.2.3 && < 1.3
+  build-depends:      base
+                    , text
 
 executable wordfrequency
   hs-source-dirs:     app
   main-is:            Main.hs
   default-language:   Haskell2010
-  build-depends:      base >= 4.11.1 && < 4.12
+  build-depends:      base
                     , wordfrequency
 
 test-suite test
@@ -41,8 +41,8 @@ test-suite test
   ghc-options:        -O2
                       -Wall
                       -threaded
-  build-depends:      base >= 4.11.1 && < 4.12
-                    , hspec >= 2.5.5
+  build-depends:      base
+                    , hspec
                     , wordfrequency
 
 benchmark benchmark
@@ -50,6 +50,6 @@ benchmark benchmark
   type:               exitcode-stdio-1.0
   hs-source-dirs:     bench
   main-is:            Main.hs
-  build-depends:      base >= 4.11.1 && < 4.12
-                    , criterion >= 1.4.1 && < 1.6
+  build-depends:      base
+                    , criterion
                     , wordfrequency

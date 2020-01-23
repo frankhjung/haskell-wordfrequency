@@ -1,14 +1,7 @@
-# https://www.stackage.org/ ghc 8.4.4 => lts 12.26
-# https://www.stackage.org/lts-12.26/
-resolver: lts-12.26
-flags: {}
-allow-newer: true
-packages:
-  - '.'
-extra-deps:
-  - criterion-1.4.1.0
-  - hspec-2.5.5
-  - text-1.2.3.1
 arch: x86_64
 system-ghc: true
-
+resolver: lts-13.25
+allow-newer: false
+flags: {}
+packages: ['.']
+extra-deps: ['criterion-1.5.5.0', 'hspec-2.6.1', 'text-1.2.3.1']
