@@ -6,7 +6,7 @@
 TARGET	:= wordfrequency
 SRCS	:= $(wildcard *.hs */*.hs)
 
-all:	check build test doc exec
+all:	check build test doc bench exec
 
 check:	tags style lint
 
