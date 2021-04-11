@@ -54,4 +54,3 @@ sortRuns' = sortOn (Down . fst)
 -- | Formatted print word frequency.
 showRun :: (Int, String) -> String
 showRun (i, s) = concat [show i, "\t", s, "\n"]
-
