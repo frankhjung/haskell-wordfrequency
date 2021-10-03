@@ -26,7 +26,7 @@ lint:
 
 build:
 	@echo build ...
-	@stack build --pedantic --no-test
+	@stack build --no-test
 
 test:
 	@stack test
