@@ -1,34 +1,28 @@
 ---
-
 stages:
   - build
   - deploy
 
 variables:
-  RTSOPTS: "+RTS -N1"
-  STACK_ROOT: ${CI_PROJECT_DIR}/.stack
+  CABAL_DIR: ${CI_PROJECT_DIR}/.cabal
 
 build:
   except:
     - tags
   image:
-    name: frankhjung/haskell:8.8
+    name: frankhjung/haskell:9.6.7
     entrypoint: [""]
   stage: build
   script:
-    - make setup clean check build test bench doc
-    - mv $(stack path --local-doc-root) public/
-    # cp -fpr .stack-work/install/x86_64-linux/*/*/hpc/. public/hpc
-    - cp -fp .stack-work/benchmark.html public/
-    - find .stack-work/
+    - make clean setup check build test bench doc
   artifacts:
     paths:
       - public
   cache:
     key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
     paths:
-      - .stack
-      - .stack-work
+      - .cabal
+      - dist-newstyle
 
 pages:
   only:

@@ -1,24 +1,50 @@
 #!/usr/bin/env make
 
-.PHONY: build check tags style lint test exec bench doc install setup ghci clean cleanall
-
+.PHONY:	build check format tags style-check lint test exec bench \
+	doc install setup ghci clean help
 
 TARGET	:= wordfrequency
 SRCS	:= $(wildcard *.hs */*.hs)
 
-default: check build test
+default: preen check build test
+
+help:
+	@echo "Available targets:"
+	@echo "  default      - Run preen, check, build, and test"
+	@echo "  all          - Run check, build, test, doc, bench, and exec"
+	@echo "  check        - Run format-check and lint"
+	@echo "  preen        - Run tags and format"
+	@echo "  tags         - Generate ctags for source files"
+	@echo "  format       - Format source files with ormolu"
+	@echo "  format-check - Check formatting with ormolu"
+	@echo "  lint         - Run hlint on source files"
+	@echo "  build        - Build all targets with cabal"
+	@echo "  test         - Run all tests"
+	@echo "  exec         - Run main executable with sample input"
+	@echo "  bench        - Run benchmarks and generate HTML report"
+	@echo "  doc          - Generate Haddock documentation"
+	@echo "  install      - Install executable to ~/.local/bin"
+	@echo "  setup        - Update cabal and build dependencies"
+	@echo "  ghci         - Start GHCi REPL"
+	@echo "  clean        - Clean build artifacts"
 
 all:	check build test doc bench exec
 
-check:	tags style lint
+check:	format-check lint
+
+preen:  tags format
 
 tags:
 	@echo tags ...
 	@hasktags --ctags --extendedctag $(SRCS)
 
-style:
-	@echo style ...
-	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
+format:
+	@echo format ...
+	@ormolu --mode inplace $(SRCS)
+
+format-check:
+	@echo format-check ...
+	@ormolu --mode check $(SRCS)
 
 lint:
 	@echo lint ...
@@ -26,39 +52,41 @@ lint:
 
 build:
 	@echo build ...
-	@stack build --no-test
+	@cabal build all
 
 test:
-	@stack test
+	@cabal test all --test-show-details=direct
 
 exec:
-	@stack exec -- $(TARGET) < LICENSE +RTS -s
+	@cabal run $(TARGET) -- +RTS -s -RTS < LICENSE
 
 bench:
-	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
+	@mkdir -p public
+	@cabal bench all \
+		--benchmark-options \
+		'-o public/benchmark.html'
 
 doc:
-	@stack haddock
+	@mkdir -p public
+	@cabal haddock lib:$(TARGET) \
+		--haddock-html-location \
+		'https://hackage.haskell.org/package/$$pkg-$$version/docs'
+	@cp -pr $$(find dist-newstyle -type d \
+		-path '*/doc/html/$(TARGET)')/. public/
 
 install:
-	@stack install --local-bin-path $(HOME)/bin
-	-cp -pr .stack-work/benchmark.html doc/
-	-cp -pr $(shell find .stack-work/install -type d -name hpc) doc/
-	-cp -pr $(shell find .stack-work/dist -type d -name html) doc/
+	@cabal install --install-method=copy \
+		--overwrite-policy=always \
+		--installdir=$(HOME)/.local/bin
 
 setup:
-	-stack setup
-	-stack build --dependencies-only --test --no-run-tests
-	-stack query
-	-stack ls dependencies
+	cabal update
+	cabal build all --only-dependencies
+	cabal list-bin $(TARGET)
 
 ghci:
-	@stack ghci --ghci-options -Wno-type-defaults
+	@cabal repl --ghc-options -Wno-type-defaults
 
 clean:
-	@stack clean
-	@$(RM) -rf $(TARGET).tix .hdevtools.sock
-
-cleanall: clean
-	@stack clean --full
-	@$(RM) -rf .stack-work/ $(TARGET)
+	@cabal clean
+	@$(RM) -rf $(TARGET).tix .hdevtools.sock public

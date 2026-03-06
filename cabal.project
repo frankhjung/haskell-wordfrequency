@@ -1,0 +1,4 @@
+-- Use Stackage LTS 22.44 (GHC 9.6.7)
+import: https://www.stackage.org/lts-22.44/cabal.config
+
+packages: .

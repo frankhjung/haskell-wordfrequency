@@ -1,14 +1,12 @@
-module Main(main) where
+module Main (main) where
 
-import           WordFrequency
-
-import           Data.Char     (toLower)
-import           Data.List     (sort)
-import           Test.Hspec    (context, describe, hspec, it, shouldBe)
+import Data.Char (toLower)
+import Data.List (sort)
+import Test.Hspec (context, describe, hspec, it, shouldBe)
+import WordFrequency
 
 main :: IO ()
 main = hspec $ do
-
   describe "map toLower" $
     context "when string has uppercase character" $
       it "returns with lowercase characters" $
@@ -43,26 +41,25 @@ main = hspec $ do
   describe "sortRuns" $ do
     context "when hello appears twice" $
       it "returns hello first" $
-        sortRuns [(2,"hello"), (1,"world")] `shouldBe` [(2, "hello"), (1, "world")]
+        sortRuns [(2, "hello"), (1, "world")] `shouldBe` [(2, "hello"), (1, "world")]
     context "when hello appears once" $
       it "returns hello last" $
-        sortRuns [(1,"hello"), (2,"world")] `shouldBe` [(2, "world"), (1, "hello")]
+        sortRuns [(1, "hello"), (2, "world")] `shouldBe` [(2, "world"), (1, "hello")]
 
   describe "sortRuns'" $ do
     context "when hello appears twice" $
       it "returns hello first" $
-        sortRuns' [(2,"hello"), (1,"world")] `shouldBe` [(2, "hello"), (1, "world")]
+        sortRuns' [(2, "hello"), (1, "world")] `shouldBe` [(2, "hello"), (1, "world")]
     context "when hello appears once" $
       it "returns hello last" $
-        sortRuns' [(1,"hello"), (2,"world")] `shouldBe` [(2, "world"), (1, "hello")]
+        sortRuns' [(1, "hello"), (2, "world")] `shouldBe` [(2, "world"), (1, "hello")]
 
   describe "showRuns" $
     context "when tuple (1,hello)" $
       it "returns string '1\\thello\\n" $
-        showRun (1,"hello") `shouldBe` "1\thello\n"
+        showRun (1, "hello") `shouldBe` "1\thello\n"
 
   describe "commonWords" $
     context "when given list of words" $
       it "returns words in descending frequency" $
         commonWords "HELLO World hello Hello" `shouldBe` "3\thello\n1\tworld\n"
-

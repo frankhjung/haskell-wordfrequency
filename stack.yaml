@@ -1,9 +1,0 @@
----
-
-arch: x86_64
-system-ghc: true
-resolver: lts-14.27
-allow-newer: false
-flags: {}
-packages: ['.']
-extra-deps: ['criterion-1.5.6.1', 'hspec-2.7.1', 'text-1.2.3.1']
