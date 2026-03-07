@@ -52,19 +52,17 @@ lint:
 
 build:
 	@echo build ...
-	@cabal build all
+	@cabal build
 
 test:
-	@cabal test all --test-show-details=direct
+	@cabal test --test-show-details=direct
 
 exec:
 	@cabal run $(TARGET) -- +RTS -s -RTS < LICENSE
 
 bench:
 	@mkdir -p public
-	@cabal bench all \
-		--benchmark-options \
-		'-o public/benchmark.html'
+	@cabal bench --benchmark-options '-o public/benchmark.html'
 
 doc:
 	@mkdir -p public
